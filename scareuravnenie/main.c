@@ -34,7 +34,7 @@ int main(void) {
     printf("Enter three number: \n");
     scanf("%f %f %f", &a, &b, &c);
     /* printf("%f %f %f\n", a, b, c); самопроверка*/
-    float x1 = 0.0, x2 = 0.0;
+    double x1 = 0.0, x2 = 0.0;
     int nRoots = SqrEq(a, b, c, &x1, &x2);
     /* printf("%g %g %d\n", x1, x2, nRoots); самопроверка */
     if (nRoots == 0) {

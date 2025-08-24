@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include "test.h"
+#include "input.h"
+#include "output.h"
+#include "solving.h"
+#include "constants.h"
+
+extern int Global;
+
+int main(void) {
+
+    Coeffs input_coeffs = {};
+    Roots solved_roots = {};
+    double x1 = 0, x2 = 0;
+    int flag = Test();
+
+    flag = scan(&input_coeffs.a, roots);
+
+    int solved_roots.number_of_roots = SqrEq(input_coeffs, roots);
+
+    flag = print(roots);
+
+    printf("Press any buton to close"); // TODO: remove
+    getchar(); // TODO: remove
+
+    return 0;
+}

@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include "constants.h"
+#include "mathematics.h"
+#include "solving.h"
+#include "test.h"
+#include "structs.h"
+
+const UnitTest tests[6] = {
+        //coeffs        //roots
+    {   {1, -5, 6},     {2, 3, 2}   },
+    {   {0, 0, 0},      {0, 0, Inf} },
+    {   {1, 0, -4},     {2, -2, 2}  },
+    {   {1, 1, 1},      {2, -2, 0}  },
+    {   {0, 1, 1},      {-1, -1, 1} },
+    {   {1, -12, 36},   {6, 6, 1}   },
+};
+
+
+int Test() {
+
+    double x1 = NAN, x2 = NAN;
+    int nRoots = 0;  //TODO: struct array UnitTest with structs coeffs and roots
+    //(roots contains number of roots)
+    bool flag = true;
+    Roots roots = {};
+
+    for (int test_num = 0; test_num < sizeof(tests); test_num++) {
+        roots.number_of_roots = SqrEq(tests[test_num].coefs, &roots);
+        flag = flag && IsRootsRight(roots, test_num);
+    }
+
+    if (flag) {
+        printf("All tests passed\n");
+    }
+
+    return 0;
+}
+
+bool IsRootsRight(Roots roots, int test_num) {
+
+    if (tests[test_num].roots.number_of_roots == 2) {   // если корней два
+        if (!(((CompareDoubles(roots.x1, tests[test_num].roots.x1) && CompareDoubles(roots.x2, tests[test_num].roots.x2)) ||
+             ((CompareDoubles(roots.x2, tests[test_num].roots.x1) && CompareDoubles(roots.x1, tests[test_num].roots.x2))) &&
+             roots.number_of_roots == tests[test_num].roots.number_of_roots))) {
+
+            ErrorPrint(roots, test_num);
+            return false;
+        }
+    } else if (tests[i].roots.number_of_roots == 1) {   // если корень один
+        if (!((CompareDoubles(x1, tests[test_num].roots.x1) || CompareDoubles(x2, tests[test_num].roots.x1)) &&
+             roots.number_of_roots == tests[test_num].roots.number_of_roots)){
+
+            ErrorPrint(roots, test_num);
+            return false;
+        }
+    }  else if (tests[test_num].roots.number_of_roots == Inf) { // если корней бесконечность
+        if (roots.number_of_roots != Inf) {
+
+            ErrorPrint(roots, test_num);
+            return false;
+        }
+    } else { // вариант когда корней нет (но через элзе)
+        if (roots.number_of_roots != tests[test_num].roots.number_of_roots) {
+
+            ErrorPrint(roots, test_num);
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void ErrorPrint(double x1, double x2, int nRoots, int test_num) {
+
+    printf("The solve is cringe: x1 right = %lg, x2 right = %lg, number of Roots right = %d;\n",
+            tests[test_num].roots.x1, tests[test_num].roots.x2, tests[test_num].roots.number_of_roots);
+    printf("your x1 = %lg, x2 = %lg, number of Roots = %d\n", x1, x2, nRoots);
+    printf("Koeffs are: a = %lg, b = %lg, c = %lg",
+            tests[test_num].coeffs.a, tests[test_num].coeffs.b, tests[test_num].coeffs.c);
+}

@@ -1,0 +1,5 @@
+g++ main.c input.c output.c solving.c test.c mathematics.c structs.c -o tryfour
+
+g++ main.c input.c output.c solving.c test.c mathematics.c -o trythree
+
+g++ main.c input.c output.c solving.c test.c mathematics.c structs.c -o TryFive_withStructs
